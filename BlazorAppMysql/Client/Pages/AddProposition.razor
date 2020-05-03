@@ -1,18 +1,16 @@
 ﻿@page "/addProposition"
-@using BlazorAppMysql.Server.DBModels
+@using BlazorAppMysql.Shared.DBModels
 @inject HttpClient Http
 
-<h3>AddProposition</h3>
+<h3>Faire une proposition</h3>
 
 
-<EditForm Model="proposition" OnValidSubmit="@InschrijvingToevoegen">
+<EditForm     Model="proposition" OnValidSubmit="@InschrijvingToevoegen">
     <DataAnnotationsValidator />
     <ValidationSummary />
-    <InputText id="Proposition" @bind-Value="proposition.Title" placeholder="proposition" class="invoerveld" /><br><br>
-    <InputText id="Commentaire" @bind-Value="proposition.Content" placeholder="KvK-nummer" class="invoerveld" /><br><br>
-
-
-    <button type="submit" class="btn invoerknop">Submit</button>
+    <InputText id="Proposition" @bind-Value="proposition.Title" placeholder="Votre proposition" class="invoerveld" /><br><br>
+    <InputTextArea id="Commentaire" @bind-Value="proposition.Content" placeholder="Commentaire" class="invoerveld" /><br><br>
+    <button type="submit" class="">Submit</button>
 </EditForm>
 
 
@@ -20,8 +18,9 @@
     public Proposition proposition = new Proposition();
     private async Task InschrijvingToevoegen()
     {
-        //    var forecasts = await Http.GetFromJsonAsync<WeatherForecast[]>("WeatherForecast");
-        var f = await Http.PostAsJsonAsync("Proposition", proposition);        
+
+        var res = await Http.PostAsJsonAsync("Proposition", proposition);
+        Console.WriteLine(res);
     }
 
 

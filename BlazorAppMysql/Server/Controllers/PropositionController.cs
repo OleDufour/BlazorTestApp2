@@ -4,8 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using BlazorAppMysql.Server.DtoModels;
+using BlazorAppMysql.Shared.DBModels;
 using BlazorAppMysql.Server.DBModels;
-
+using BlazorAppMysql.Shared;
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace BlazorAppMysql.Server.Controllers
@@ -40,9 +41,11 @@ namespace BlazorAppMysql.Server.Controllers
         //[Route("Create")]
         public async Task<IActionResult> Post(Proposition proposition)
         {
+            var response = new ResponseSingle<int>();
             _context.Add(proposition);
             await _context.SaveChangesAsync();
-            return NoContent();
+            //      return NoContent();
+            return Ok(response) ;
         }
 
         // PUT api/<ValuesController>/5

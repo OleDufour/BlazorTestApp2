@@ -1,4 +1,5 @@
 ﻿using System;
+using BlazorAppMysql.Shared.DBModels;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
