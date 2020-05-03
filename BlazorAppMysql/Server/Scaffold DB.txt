@@ -1,0 +1,4 @@
+﻿dotnet tool install --global dotnet-ef
+ 
+ 
+dotnet-ef dbcontext scaffold "server=127.0.0.1;Port=3306;Database=PropositionVoter;user id=root;Pwd=;SslMode=none;" MySql.Data.EntityFrameworkCore -o DBModels --force --data-annotations
