@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Linq;
+using BlazorAppMysql.Server.DBModels;
 
 namespace BlazorAppMysql.Server
 {
@@ -25,6 +26,7 @@ namespace BlazorAppMysql.Server
 
             services.AddControllersWithViews();
             services.AddRazorPages();
+            services.AddDbContext<PropositionVoterContext>();// (options => options.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"]));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -51,7 +53,7 @@ namespace BlazorAppMysql.Server
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapRazorPages();
-                endpoints.MapControllers();
+                endpoints.MapControllers(); 
                 endpoints.MapFallbackToFile("index.html");
             });
         }

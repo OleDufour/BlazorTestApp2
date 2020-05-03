@@ -10,8 +10,8 @@ using BlazorAppMysql.Server.DBModels;
 
 namespace BlazorAppMysql.Server.Controllers
 {
-    [Route("[controller]")]
     [ApiController]
+    [Route("[controller]")]
     public class PropositionController : ControllerBase
     {
         private readonly PropositionVoterContext _context;
@@ -35,8 +35,9 @@ namespace BlazorAppMysql.Server.Controllers
             return "value";
         }
 
-        // POST api/<ValuesController>
+      
         [HttpPost]
+        //[Route("Create")]
         public async Task<IActionResult> Post(Proposition proposition)
         {
             _context.Add(proposition);
