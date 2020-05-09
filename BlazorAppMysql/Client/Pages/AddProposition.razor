@@ -19,7 +19,7 @@
     private async Task InschrijvingToevoegen()
     {
 
-        var res = await Http.PostAsJsonAsync("Proposition", proposition);
+        var res = await Http.PostAsJsonAsync("Proposition/Add", proposition);
         Console.WriteLine(res);
     }
 

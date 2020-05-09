@@ -7,12 +7,13 @@ using BlazorAppMysql.Server.DtoModels;
 using BlazorAppMysql.Shared.DBModels;
 using BlazorAppMysql.Server.DBModels;
 using BlazorAppMysql.Shared;
+
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace BlazorAppMysql.Server.Controllers
 {
     [ApiController]
-    [Route("[controller]")]
+    [Route("[controller]/[action]")]
     public class PropositionController : ControllerBase
     {
         private readonly PropositionVoterContext _context;
@@ -24,9 +25,10 @@ namespace BlazorAppMysql.Server.Controllers
 
         // GET: api/<ValuesController>
         [HttpGet]
-        public IEnumerable<string> Get()
+        public List<Proposition> GetPropositions()
         {
-            return new string[] { "value1", "value2" };
+            IQueryable<Proposition> v = _context.Proposition.Select(x => x);
+            return v.ToList();
         }
 
         // GET api/<ValuesController>/5
@@ -36,16 +38,16 @@ namespace BlazorAppMysql.Server.Controllers
             return "value";
         }
 
-      
+
         [HttpPost]
         //[Route("Create")]
-        public async Task<IActionResult> Post(Proposition proposition)
+        public async Task<IActionResult> Add(Proposition proposition)
         {
             var response = new ResponseSingle<int>();
             _context.Add(proposition);
             await _context.SaveChangesAsync();
             //      return NoContent();
-            return Ok(response) ;
+            return Ok(response);
         }
 
         // PUT api/<ValuesController>/5
