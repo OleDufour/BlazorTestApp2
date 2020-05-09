@@ -4,7 +4,6 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using BlazorAppMysql.Server.DtoModels;
-
 using BlazorAppMysql.Server;
 using BlazorAppMysql.Shared;
 
@@ -14,20 +13,20 @@ namespace BlazorAppMysql.Server.Controllers
 {
     [ApiController]
     [Route("[controller]/[action]")]
-    public class PropositionController : ControllerBase
+    public class DossierController : ControllerBase
     {
         private readonly PropositionVoterContext _context;
 
-        public PropositionController(PropositionVoterContext context)
+        public DossierController(PropositionVoterContext context)
         {
             _context = context;
         }
 
         // GET: api/<ValuesController>
         [HttpGet]
-        public List<Proposition> GetPropositions()
+        public List<Dossier> GetDossiers()
         {
-            IQueryable<Proposition> v = _context.Proposition.Select(x => x);
+            IQueryable<Dossier> v = _context.Dossier.Select(x => x);
             return v.ToList();
         }
 
@@ -41,10 +40,10 @@ namespace BlazorAppMysql.Server.Controllers
 
         [HttpPost]
         //[Route("Create")]
-        public async Task<IActionResult> Add(Proposition proposition)
+        public async Task<IActionResult> Add(Dossier dossier)
         {
             var response = new ResponseSingle<int>();
-            _context.Add(proposition);
+            _context.Add(dossier);
             await _context.SaveChangesAsync();
             //      return NoContent();
             return Ok(response);

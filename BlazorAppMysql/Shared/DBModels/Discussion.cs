@@ -1,9 +1,10 @@
-﻿using System;
+﻿using BlazorAppMysql.Server;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace BlazorAppMysql.Shared.DBModels
+namespace BlazorAppMysql.Server
 {
     [Table("discussion")]
     public partial class Discussion

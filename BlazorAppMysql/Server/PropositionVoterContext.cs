@@ -1,9 +1,8 @@
 ﻿using System;
-using BlazorAppMysql.Shared.DBModels;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
-namespace BlazorAppMysql.Server.DBModels
+namespace BlazorAppMysql.Server
 {
     public partial class PropositionVoterContext : DbContext
     {
@@ -17,6 +16,7 @@ namespace BlazorAppMysql.Server.DBModels
         }
 
         public virtual DbSet<Discussion> Discussion { get; set; }
+        public virtual DbSet<Dossier> Dossier { get; set; }
         public virtual DbSet<Proposition> Proposition { get; set; }
         public virtual DbSet<UserProposition> UserProposition { get; set; }
 
@@ -46,8 +46,25 @@ namespace BlazorAppMysql.Server.DBModels
                     .HasConstraintName("fk_Discussion_Proposition");
             });
 
+            modelBuilder.Entity<Dossier>(entity =>
+            {
+                entity.HasIndex(e => e.Id)
+                    .HasName("ID_UNIQUE")
+                    .IsUnique();
+
+                entity.HasIndex(e => e.Title)
+                    .HasName("Name_UNIQUE")
+                    .IsUnique();
+
+                entity.Property(e => e.Title).IsUnicode(false);
+            });
+
             modelBuilder.Entity<Proposition>(entity =>
             {
+                entity.HasIndex(e => e.DossierId)
+                    .HasName("DossierID_UNIQUE")
+                    .IsUnique();
+
                 entity.HasIndex(e => e.Id)
                     .HasName("ID_UNIQUE")
                     .IsUnique();
@@ -55,6 +72,12 @@ namespace BlazorAppMysql.Server.DBModels
                 entity.Property(e => e.Content).IsUnicode(false);
 
                 entity.Property(e => e.Title).IsUnicode(false);
+
+                entity.HasOne(d => d.Dossier)
+                    .WithOne(p => p.Proposition)
+                    .HasForeignKey<Proposition>(d => d.DossierId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("proposition_fk_dossier");
             });
 
             modelBuilder.Entity<UserProposition>(entity =>

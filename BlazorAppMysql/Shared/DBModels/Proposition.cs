@@ -1,9 +1,10 @@
-﻿using System;
+﻿
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace BlazorAppMysql.Shared.DBModels
+namespace BlazorAppMysql.Server
 {
     [Table("proposition")]
     public partial class Proposition
@@ -27,7 +28,12 @@ namespace BlazorAppMysql.Shared.DBModels
         [Column("CreatedByUserID", TypeName = "int(11)")]
         public int CreatedByUserId { get; set; }
         public DateTime? ClosedDate { get; set; }
+        [Column("DossierID", TypeName = "int(11)")]
+        public int DossierId { get; set; }
 
+        [ForeignKey(nameof(DossierId))]
+        [InverseProperty("Proposition")]
+        public virtual Dossier Dossier { get; set; }
         [InverseProperty("Proposition")]
         public virtual ICollection<Discussion> Discussion { get; set; }
         [InverseProperty("Proposition")]

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
-namespace BlazorAppMysql.Shared.DBModels
+namespace BlazorAppMysql.Server
 {
     [Table("user_proposition")]
     public partial class UserProposition

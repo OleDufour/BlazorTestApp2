@@ -1,4 +1,10 @@
 ﻿dotnet tool install --global dotnet-ef
  
- 
-dotnet-ef dbcontext scaffold "server=127.0.0.1;Port=3306;Database=PropositionVoter;user id=root;Pwd=;SslMode=none;" MySql.Data.EntityFrameworkCore -o DBModels --force --data-annotations
+ Draaien in root van serv, dit is schijt
+
+
+dotnet-ef dbcontext scaffold "server=127.0.0.1;Port=3306;Database=PropositionVoter;user id=root;Pwd=;SslMode=none;" MySql.Data.EntityFrameworkCore -o C:\Users\OLE\source\repos\BlazorAppMysql\BlazorAppMysql\Shared\DBModels --force --data-annotations
+
+SET FOREIGN_KEY_CHECKS = 0; 
+TRUNCATE table propositionvoter.proposition;
+SET FOREIGN_KEY_CHECKS = 1;
