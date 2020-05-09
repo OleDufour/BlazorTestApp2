@@ -26,15 +26,16 @@ namespace BlazorAppMysql.Server.Controllers
         [HttpGet]
         public List<Dossier> GetDossiers()
         {
-            IQueryable<Dossier> v = _context.Dossier.Select(x => x);
+            IQueryable<Dossier> v = _context.Dossier;//.Select(x => x);
             return v.ToList();
         }
 
         // GET api/<ValuesController>/5
         [HttpGet("{id}")]
-        public string Get(int id)
+        public Dossier GetDossier(int id)
         {
-            return "value";
+           Dossier  d = _context.Dossier.Where(x => x.Id == id).Single();//.Select(x => x);
+            return d ;
         }
 
 

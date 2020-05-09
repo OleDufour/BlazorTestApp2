@@ -1,0 +1,38 @@
+﻿@page "/dossierModifier/{Id}"
+@using BlazorAppMysql.Server
+@inject HttpClient Http
+
+    <h3>@dossier.Title</h3>
+
+<EditForm Model="dossier" OnValidSubmit="@Edit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <InputText id="Dossier" @bind-Value="dossier.Title" placeholder="Votre dossier" class="invoerveld" /><br><br>
+    <InputText id="Dossier" @bind-Value="dossier.Title" placeholder="Votre dossier" class="invoerveld" /><br><br>
+    <button type="submit" class="">Submit</button>
+</EditForm>
+
+
+<div class="list-group">
+    @foreach (Proposition p in dossier.Proposition)
+    {
+        <a href="/dossierModifier/@d.Id" class="list-group-item">@d.Title, @d.CreationDate.ToString("dd/MM/yyyy"), par Ole Dufour</a>
+    }
+</div>
+
+@code {
+    [Parameter]
+    public string Id { get; set; }
+    public  Dossier dossier = new  Dossier();
+    protected override async Task OnInitializedAsync()
+    {
+        dossier = await Http.GetFromJsonAsync<Dossier>($"Dossier/GetDossier/{Id}");
+    }
+    private async Task Edit()
+    {
+
+        var res = await Http.PostAsJsonAsync("Dossier/Edit", dossier);
+
+    }
+
+}

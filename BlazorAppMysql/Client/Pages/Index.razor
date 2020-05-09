@@ -1,7 +1,28 @@
 ﻿@page "/"
+@using BlazorAppMysql.Server
+@inject HttpClient Http
 
-<h1>Hello, world!</h1>
+<h2>Dossiers</h2>
 
-Welcome to your new app.
+Tout les dossiers en cours.
 
-<SurveyPrompt Title="How is Blazor working for you?" />
+@*<SurveyPrompt Title="How is Blazor working for you?" />*@
+
+
+<div class="list-group">
+    @foreach (var d in dossiers)
+    {
+        <a href="/dossierModifier/@d.Id" class="list-group-item">@d.Title, @d.CreationDate.ToString("dd/MM/yyyy"), par Ole Dufour</a>
+    }
+</div>
+
+
+@code {
+    private List<Dossier> dossiers = new List<Dossier>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        dossiers = await Http.GetFromJsonAsync<List<Dossier>>("Dossier/GetDossiers");
+    }
+
+}
