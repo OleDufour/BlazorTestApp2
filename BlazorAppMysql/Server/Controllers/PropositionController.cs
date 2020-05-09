@@ -25,9 +25,9 @@ namespace BlazorAppMysql.Server.Controllers
 
         // GET: api/<ValuesController>
         [HttpGet]
-        public List<Proposition> GetPropositions()
+        public List<Vote> GetPropositions()
         {
-            IQueryable<Proposition> v = _context.Proposition.Select(x => x);
+            IQueryable<Vote> v = _context.Vote.Select(x => x);
             return v.ToList();
         }
 
@@ -41,7 +41,7 @@ namespace BlazorAppMysql.Server.Controllers
 
         [HttpPost]
         //[Route("Create")]
-        public async Task<IActionResult> Add(Proposition proposition)
+        public async Task<IActionResult> Add(Vote proposition)
         {
             var response = new ResponseSingle<int>();
             _context.Add(proposition);

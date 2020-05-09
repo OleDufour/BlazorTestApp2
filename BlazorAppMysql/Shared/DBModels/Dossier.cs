@@ -8,6 +8,11 @@ namespace BlazorAppMysql.Server
     [Table("dossier")]
     public partial class Dossier
     {
+        public Dossier()
+        {
+            Vote = new HashSet<Vote>();
+        }
+
         [Key]
         [Column("ID", TypeName = "int(11)")]
         public int Id { get; set; }
@@ -19,6 +24,6 @@ namespace BlazorAppMysql.Server
         public int UserId { get; set; }
 
         [InverseProperty("Dossier")]
-        public virtual Proposition Proposition { get; set; }
+        public virtual ICollection<Vote> Vote { get; set; }
     }
 }

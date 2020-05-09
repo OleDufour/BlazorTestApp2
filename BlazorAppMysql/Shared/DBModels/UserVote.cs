@@ -5,24 +5,22 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BlazorAppMysql.Server
 {
-    [Table("discussion")]
-    public partial class Discussion
+    [Table("user_vote")]
+    public partial class UserVote
     {
         [Key]
         [Column("ID", TypeName = "int(11)")]
         public int Id { get; set; }
-        [Required]
-        [Column("UserID")]
-        [StringLength(45)]
-        public string UserId { get; set; }
-        [Required]
-        [StringLength(250)]
-        public string Content { get; set; }
         [Column("PropositionID", TypeName = "int(11)")]
         public int PropositionId { get; set; }
+        [Column(TypeName = "tinyint(4)")]
+        public byte VotedFor { get; set; }
+        public DateTime VoteDate { get; set; }
+        [StringLength(200)]
+        public string Comment { get; set; }
 
         [ForeignKey(nameof(PropositionId))]
-        [InverseProperty(nameof(Vote.Discussion))]
+        [InverseProperty(nameof(Vote.UserVote))]
         public virtual Vote Proposition { get; set; }
     }
 }

@@ -17,8 +17,8 @@ namespace BlazorAppMysql.Server
 
         public virtual DbSet<Discussion> Discussion { get; set; }
         public virtual DbSet<Dossier> Dossier { get; set; }
-        public virtual DbSet<Proposition> Proposition { get; set; }
-        public virtual DbSet<UserProposition> UserProposition { get; set; }
+        public virtual DbSet<UserVote> UserVote { get; set; }
+        public virtual DbSet<Vote> Vote { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -59,28 +59,7 @@ namespace BlazorAppMysql.Server
                 entity.Property(e => e.Title).IsUnicode(false);
             });
 
-            modelBuilder.Entity<Proposition>(entity =>
-            {
-                entity.HasIndex(e => e.DossierId)
-                    .HasName("DossierID_UNIQUE")
-                    .IsUnique();
-
-                entity.HasIndex(e => e.Id)
-                    .HasName("ID_UNIQUE")
-                    .IsUnique();
-
-                entity.Property(e => e.Content).IsUnicode(false);
-
-                entity.Property(e => e.Title).IsUnicode(false);
-
-                entity.HasOne(d => d.Dossier)
-                    .WithOne(p => p.Proposition)
-                    .HasForeignKey<Proposition>(d => d.DossierId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("proposition_fk_dossier");
-            });
-
-            modelBuilder.Entity<UserProposition>(entity =>
+            modelBuilder.Entity<UserVote>(entity =>
             {
                 entity.HasIndex(e => e.Id)
                     .HasName("idUser_Voted_UNIQUE")
@@ -92,9 +71,29 @@ namespace BlazorAppMysql.Server
                 entity.Property(e => e.Comment).IsUnicode(false);
 
                 entity.HasOne(d => d.Proposition)
-                    .WithMany(p => p.UserProposition)
+                    .WithMany(p => p.UserVote)
                     .HasForeignKey(d => d.PropositionId)
                     .HasConstraintName("fk_User_Proposition_Proposition");
+            });
+
+            modelBuilder.Entity<Vote>(entity =>
+            {
+                entity.HasIndex(e => e.DossierId)
+                    .HasName("fk_vote_dossier_idx");
+
+                entity.HasIndex(e => e.Id)
+                    .HasName("ID_UNIQUE")
+                    .IsUnique();
+
+                entity.Property(e => e.Content).IsUnicode(false);
+
+                entity.Property(e => e.Title).IsUnicode(false);
+
+                entity.HasOne(d => d.Dossier)
+                    .WithMany(p => p.Vote)
+                    .HasForeignKey(d => d.DossierId)
+                    .OnDelete(DeleteBehavior.ClientSetNull)
+                    .HasConstraintName("fk_vote_dossier");
             });
 
             OnModelCreatingPartial(modelBuilder);
