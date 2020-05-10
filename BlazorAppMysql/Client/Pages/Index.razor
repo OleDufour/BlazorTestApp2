@@ -1,5 +1,6 @@
 ﻿@page "/"
 @using BlazorAppMysql.Server
+@using Syncfusion.Blazor.Calendars
 @inject HttpClient Http
 
 <h2>Dossiers</h2>
@@ -7,7 +8,7 @@
 Tout les dossiers en cours.
 
 @*<SurveyPrompt Title="How is Blazor working for you?" />*@
-
+<SfDateTimePicker TValue="DateTime?" Placeholder='Select a date and time'></SfDateTimePicker>
 
 <div class="list-group">
     @foreach (var d in dossiers)
