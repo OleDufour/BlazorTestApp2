@@ -17,7 +17,8 @@
  <div class="list-group">
     @foreach (Vote v in dossier.Vote)
     {
-       <span>@v.Title</span>
+     <a href="/voteCast/@v.Id" >@v.Title</a>
+    
     }
 </div> 
 

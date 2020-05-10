@@ -6,7 +6,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Linq;
- 
+using Newtonsoft.Json;
+
 namespace BlazorAppMysql.Server
 {
     public class Startup
@@ -26,6 +27,9 @@ namespace BlazorAppMysql.Server
             services.AddRazorPages();
             services.AddDbContext<PropositionVoterContext>();// (options => options.UseSqlServer(Configuration["ConnectionStrings:DefaultConnection"]));
             services.AddHostedService<ApplicationEventsService>();
+            services.AddControllers().AddNewtonsoftJson(options =>
+    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

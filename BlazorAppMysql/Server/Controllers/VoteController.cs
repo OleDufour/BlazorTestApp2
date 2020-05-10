@@ -50,6 +50,19 @@ namespace BlazorAppMysql.Server.Controllers
             return Ok(response);
         }
 
+
+        [HttpPost]
+        //[Route("Create")]
+        public async Task<IActionResult> Cast(Vote vote)
+        {
+            var response = new ResponseSingle<int>();
+            _context.Add(vote);
+            await _context.SaveChangesAsync();
+            //      return NoContent();
+            return Ok(response);
+        }
+
+
         // PUT api/<ValuesController>/5
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] string value)

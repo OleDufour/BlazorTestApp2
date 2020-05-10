@@ -35,18 +35,10 @@ namespace BlazorAppMysql.Server.Controllers
         [HttpGet("{id}")]
         public Dossier GetDossier(int id)
         {
-            Dossier d;
-            try
-            {
-                d = _context.Dossier.Include(b => b.Vote).Where(x => x.Id == id).Single();//.Select(x => x);
+        
+                Dossier d = _context.Dossier.Include(b => b.Vote).Where(x => x.Id == id).Single();//.Select(x => x);
                 return d;
-            }
-            catch (Exception ex)
-            {
-
-                throw;
-            }
-          
+        
         }
 
 
