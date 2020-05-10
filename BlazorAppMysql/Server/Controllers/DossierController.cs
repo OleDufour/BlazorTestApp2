@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using BlazorAppMysql.Server.DtoModels;
 using BlazorAppMysql.Server;
 using BlazorAppMysql.Shared;
+using Microsoft.EntityFrameworkCore;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -34,8 +35,18 @@ namespace BlazorAppMysql.Server.Controllers
         [HttpGet("{id}")]
         public Dossier GetDossier(int id)
         {
-           Dossier  d = _context.Dossier.Where(x => x.Id == id).Single();//.Select(x => x);
-            return d ;
+            Dossier d;
+            try
+            {
+                d = _context.Dossier.Include(b => b.Vote).Where(x => x.Id == id).Single();//.Select(x => x);
+                return d;
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
+          
         }
 
 

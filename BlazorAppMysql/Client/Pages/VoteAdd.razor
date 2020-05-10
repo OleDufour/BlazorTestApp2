@@ -1,4 +1,4 @@
-﻿@*@page "/addVote"
+﻿ @page "/voteAdd/{DossierId}"
 @using BlazorAppMysql.Server
 @inject HttpClient Http
 
@@ -15,7 +15,10 @@
 
 
 @code {
+    [Parameter]
+    public string DossierId { get; set; }
     public Vote vote = new Vote();
+
     private async Task Add()
     {
 
@@ -23,5 +26,11 @@
         Console.WriteLine(res);
     }
 
+    protected override void OnInitialized ()
+    {
+        vote.DossierId =Convert.ToInt32( DossierId);
 
-}*@
+    }
+
+
+}

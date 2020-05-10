@@ -8,3 +8,52 @@ dotnet-ef dbcontext scaffold "server=127.0.0.1;Port=3306;Database=PropositionVot
 SET FOREIGN_KEY_CHECKS = 0; 
 TRUNCATE table propositionvoter.proposition;
 SET FOREIGN_KEY_CHECKS = 1;
+
+CREATE TABLE `dossier` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `Title` varchar(145) NOT NULL,
+  `CreationDate` datetime NOT NULL,
+  `UserID` int(11) NOT NULL,
+  PRIMARY KEY (`ID`),
+  UNIQUE KEY `ID_UNIQUE` (`ID`),
+  UNIQUE KEY `Name_UNIQUE` (`Title`)
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=utf8;
+
+
+CREATE TABLE `vote` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `CreationDate` datetime NOT NULL,
+  `Title` varchar(45) NOT NULL,
+  `Content` varchar(500) NOT NULL,
+  `CreatedByUserID` int(11) NOT NULL,
+  `ClosedDate` datetime DEFAULT NULL,
+  `DossierID` int(11) NOT NULL,
+  PRIMARY KEY (`ID`),
+  UNIQUE KEY `ID_UNIQUE` (`ID`),
+  KEY `fk_vote_dossier_idx` (`DossierID`),
+  CONSTRAINT `fk_vote_dossier` FOREIGN KEY (`DossierID`) REFERENCES `dossier` (`ID`) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+CREATE TABLE `discussion` (
+  `ID` int(11) NOT NULL,
+  `UserID` varchar(45) NOT NULL,
+  `Content` varchar(250) NOT NULL,
+  `PropositionID` int(11) NOT NULL,
+  PRIMARY KEY (`ID`),
+  KEY `fk_Discussion_Proposition_idx` (`PropositionID`),
+  CONSTRAINT `fk_Discussion_Proposition` FOREIGN KEY (`PropositionID`) REFERENCES `vote` (`ID`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+CREATE TABLE `user_vote` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `PropositionID` int(11) NOT NULL,
+  `VotedFor` tinyint(4) NOT NULL,
+  `VoteDate` datetime NOT NULL,
+  `Comment` varchar(200) DEFAULT NULL,
+  PRIMARY KEY (`ID`),
+  UNIQUE KEY `idUser_Voted_UNIQUE` (`ID`),
+  KEY `fk_User_Proposition_Proposition_idx` (`PropositionID`),
+  CONSTRAINT `fk_User_Proposition_Proposition` FOREIGN KEY (`PropositionID`) REFERENCES `vote` (`ID`) ON DELETE CASCADE ON UPDATE NO ACTION
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
