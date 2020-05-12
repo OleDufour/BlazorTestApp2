@@ -65,14 +65,14 @@ namespace BlazorAppMysql.Server
                     .HasName("idUser_Voted_UNIQUE")
                     .IsUnique();
 
-                entity.HasIndex(e => e.PropositionId)
+                entity.HasIndex(e => e.VoteId)
                     .HasName("fk_User_Proposition_Proposition_idx");
 
                 entity.Property(e => e.Comment).IsUnicode(false);
 
                 entity.HasOne(d => d.Proposition)
                     .WithMany(p => p.UserVote)
-                    .HasForeignKey(d => d.PropositionId)
+                    .HasForeignKey(d => d.VoteId)
                     .HasConstraintName("fk_User_Proposition_Proposition");
             });
 
