@@ -1,4 +1,4 @@
-﻿ @page "/voteCast/{Id}"
+﻿@page "/voteCast/{Id}"
 @using BlazorAppMysql.Server
 @inject HttpClient Http
 
@@ -6,17 +6,13 @@
 
 
 <EditForm Model="vote" OnValidSubmit="@Add">
-    <div class="container">        
-            <label class="radio-inline">
-                <input type="radio" name="optradio" checked>Je suis pour cette proposition
-            </label>
-            <label class="radio-inline">
-                <InputCheckbox type="radio" name="optradio">Je suis contre cette proposition</InputCheckbox>
-            </label>
-            <label class="radio-inline">
-                <input type="radio" name="optradio">Je vote blanco
-            </label>
-       
+    <div class="container">
+        <label class="radio-inline">
+            <InputCheckbox @onchange="CheckChanged"  @bind-Value="pour" name="optradio" />Je suis pour cette proposition
+        </label>
+        <label class="radio-inline">
+            <InputCheckbox @bind-Value="contre" />Je suis contre cette proposition
+        </label>   
     </div>
     <button type="submit" class="">Submit</button>
 </EditForm>
@@ -24,19 +20,32 @@
 
 @code {
     [Parameter]
-    public string   Id { get; set; }
+    public string Id { get; set; }
     public Vote vote = new Vote();
+
+    bool contre = false;
+    bool pour = true;
+
+    void   CheckChanged(EventArgs e)
+    {
+        Console.WriteLine(   e    );
+    }
 
     private async Task Add()
     {
+        UserVote userVote = new UserVote();
+        userVote.
 
-        var res = await Http.PostAsJsonAsync("Vote/Cast",vote);
-        Console.WriteLine(res);
+        // var res = await Http.PostAsJsonAsync("Vote/Cast", vote);
+        Console.WriteLine("contre", contre.ToString());
+        Console.WriteLine("pour", pour.ToString());
+        Console.WriteLine("pour2", "pour.ToString()");
+        Console.WriteLine( pour.ToString() );
     }
 
-    protected override void OnInitialized ()
+    protected override void OnInitialized()
     {
-        vote.Id =Convert.ToInt32( Id);
+        vote.Id = Convert.ToInt32(Id);
 
     }
 

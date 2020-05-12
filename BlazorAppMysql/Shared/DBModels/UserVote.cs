@@ -11,15 +11,15 @@ namespace BlazorAppMysql.Server
         [Key]
         [Column("ID", TypeName = "int(11)")]
         public int Id { get; set; }
-        [Column("PropositionID", TypeName = "int(11)")]
-        public int PropositionId { get; set; }
+        [Column("VoteID", TypeName = "int(11)")]
+        public int VoteId { get; set; }
         [Column(TypeName = "tinyint(4)")]
         public byte VotedFor { get; set; }
         public DateTime VoteDate { get; set; }
         [StringLength(200)]
         public string Comment { get; set; }
 
-        [ForeignKey(nameof(PropositionId))]
+        [ForeignKey(nameof(VoteId))]
         [InverseProperty(nameof(Vote.UserVote))]
         public virtual Vote Proposition { get; set; }
     }

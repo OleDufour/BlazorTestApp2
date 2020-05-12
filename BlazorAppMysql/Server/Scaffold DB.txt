@@ -48,12 +48,12 @@ CREATE TABLE `discussion` (
 
 CREATE TABLE `user_vote` (
   `ID` int(11) NOT NULL AUTO_INCREMENT,
-  `PropositionID` int(11) NOT NULL,
+  `VoteID` int(11) NOT NULL,
   `VotedFor` tinyint(4) NOT NULL,
   `VoteDate` datetime NOT NULL,
   `Comment` varchar(200) DEFAULT NULL,
   PRIMARY KEY (`ID`),
   UNIQUE KEY `idUser_Voted_UNIQUE` (`ID`),
-  KEY `fk_User_Proposition_Proposition_idx` (`PropositionID`),
-  CONSTRAINT `fk_User_Proposition_Proposition` FOREIGN KEY (`PropositionID`) REFERENCES `vote` (`ID`) ON DELETE CASCADE ON UPDATE NO ACTION
+  KEY `fk_User_Proposition_Proposition_idx` (`VoteID`),
+  CONSTRAINT `fk_User_Proposition_Proposition` FOREIGN KEY (`VoteID`) REFERENCES `vote` (`ID`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
