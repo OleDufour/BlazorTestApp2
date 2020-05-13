@@ -3,16 +3,18 @@
 @inject HttpClient Http
 
 <h4>Dossier</h4>
-
+@*<input id="cbpour" type="checkbox" @onchange="CheckboxChangedPour" bind="@pour" />  <label for="cbpour">Je suis pour cette proposition</label>
+<input id="cbcontre" type="checkbox" @onchange=CheckboxChangedContre bind="@contre" />  <label for="cbcontre">Je suis pour cette proposition</label>*@
 
 <EditForm Model="vote" OnValidSubmit="@Add">
     <div class="container">
-        <label class="radio-inline">
-            <InputCheckbox @onchange="CheckChanged"  @bind-Value="pour" name="optradio" />Je suis pour cette proposition
-        </label>
-        <label class="radio-inline">
-            <InputCheckbox @bind-Value="contre" />Je suis contre cette proposition
-        </label>   
+
+     <label class="radio-inline">
+                <InputCheckbox @bind-Value="pour"   name="optradio" />Je suis pour cette proposition
+            </label>  localhost:44366/voteCast/1 
+            <label class="radio-inline">
+                <InputCheckbox @bind-Value="contre"     />Je suis contre cette proposition
+            </label> 
     </div>
     <button type="submit" class="">Submit</button>
 </EditForm>
@@ -23,24 +25,75 @@
     public string Id { get; set; }
     public Vote vote = new Vote();
 
-    bool contre = false;
-    bool pour = true;
 
-    void   CheckChanged(EventArgs e)
-    {
-        Console.WriteLine(   e    );
+    bool _pour;
+    bool pour {
+
+        get { return _pour; }
+        set {
+            if (!_pour&& _contre) _contre = false;
+            _pour=value;
+        }
     }
+
+
+    bool _contre;
+    bool contre
+    {
+
+        get { return _contre; }
+        set
+        {
+            if (!_contre&& _pour) _pour = false;
+            _contre = value;
+        }
+    }
+
+
+
+
+  
+
+
+    void CheckboxChangedPour(ChangeEventArgs e)
+    {
+        Console.WriteLine("dddddddd");
+        pour = (bool)e.Value;
+        if (pour) contre = false;
+        Console.WriteLine("pour " + pour.ToString());
+        Console.WriteLine("contre " + contre.ToString());
+        StateHasChanged();
+    } 
+    void CheckboxChangedContre(ChangeEventArgs e)
+    {
+        contre = (bool)e.Value;
+        if (contre) pour = false;
+        Console.WriteLine("pour " + pour.ToString());
+        Console.WriteLine("contre " + contre.ToString());
+        StateHasChanged();
+    }
+
+    void Clicked(EventArgs e)
+    {
+        Console.WriteLine(   e.ToString()    );
+
+        //   Console.WriteLine("pour " + e.Value.ToString());
+        //  Console.WriteLine("contre " + e.Value.ToString());
+
+    }
+
+
 
     private async Task Add()
     {
         UserVote userVote = new UserVote();
-        
+
 
         // var res = await Http.PostAsJsonAsync("Vote/Cast", vote);
         Console.WriteLine("contre", contre.ToString());
         Console.WriteLine("pour", pour.ToString());
         Console.WriteLine("pour2", "pour.ToString()");
-        Console.WriteLine( pour.ToString() );
+        Console.WriteLine(pour.ToString());
     }
 
     protected override void OnInitialized()
