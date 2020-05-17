@@ -1,7 +1,12 @@
 ﻿@page "/"
 @using BlazorAppMysql.Server
 @using Syncfusion.Blazor.Calendars
+@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
 @inject HttpClient Http
+
+ 
+
 
 <h2>Dossiers</h2>
 
@@ -19,11 +24,28 @@ Tout les dossiers en cours.
 
 
 @code {
+
+
+
+
+
+
     private List<Dossier> dossiers = new List<Dossier>();
 
     protected override async Task OnInitializedAsync()
     {
-        dossiers = await Http.GetFromJsonAsync<List<Dossier>>("Dossier/GetDossiers");
+
+    
+
+        Console.WriteLine("baseUrl" +   Http.BaseAddress);
+        try
+        {
+            dossiers = await Http.GetFromJsonAsync<List<Dossier>>("Dossier/GetDossiers");
+        }
+        catch (AccessTokenNotAvailableException exception)
+        {
+            exception.Redirect();
+        }
     }
 
 }

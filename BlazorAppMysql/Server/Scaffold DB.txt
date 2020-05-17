@@ -57,3 +57,66 @@ CREATE TABLE `user_vote` (
   KEY `fk_User_Proposition_Proposition_idx` (`VoteID`),
   CONSTRAINT `fk_User_Proposition_Proposition` FOREIGN KEY (`VoteID`) REFERENCES `vote` (`ID`) ON DELETE CASCADE ON UPDATE NO ACTION
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
+
+-- Ik heb UserCode van 200 naar 180 gekrompen
+CREATE TABLE `DeviceCodes` (
+          `UserCode` varchar(180) CHARACTER SET utf8mb4 NOT NULL,
+          `DeviceCode` varchar(180) CHARACTER SET utf8mb4 NOT NULL,
+          `SubjectId` varchar(200) CHARACTER SET utf8mb4 NULL,
+          `ClientId` varchar(200) CHARACTER SET utf8mb4 NOT NULL,
+          `CreationTime` datetime(6) NOT NULL,
+          `Expiration` datetime(6) NOT NULL,
+          `Data` longtext CHARACTER SET utf8mb4 NOT NULL,
+          CONSTRAINT `PK_DeviceCodes` PRIMARY KEY (`UserCode`)
+      );
+-- Ik heb Key van 200 naar 190 gekrompen
+            CREATE TABLE `PersistedGrants` (
+          `Key` varchar(190) CHARACTER SET utf8mb4 NOT NULL,
+          `Type` varchar(50) CHARACTER SET utf8mb4 NOT NULL,
+          `SubjectId` varchar(200) CHARACTER SET utf8mb4 NULL,
+          `ClientId` varchar(200) CHARACTER SET utf8mb4 NOT NULL,
+          `CreationTime` datetime(6) NOT NULL,
+          `Expiration` datetime(6) NULL,
+          `Data` longtext CHARACTER SET utf8mb4 NOT NULL,
+          CONSTRAINT `PK_PersistedGrants` PRIMARY KEY (`Key`)
+      );
+
+     --  `RoleId` varchar(85)
+      CREATE TABLE `AspNetRoleClaims` (
+    `Id` int NOT NULL AUTO_INCREMENT,
+    `RoleId` varchar(85) CHARACTER SET utf8mb4 NOT NULL,
+    `ClaimType` longtext CHARACTER SET utf8mb4 NULL,
+    `ClaimValue` longtext CHARACTER SET utf8mb4 NULL,
+    CONSTRAINT `PK_AspNetRoleClaims` PRIMARY KEY (`Id`),
+    CONSTRAINT `FK_AspNetRoleClaims_AspNetRoles_RoleId` FOREIGN KEY (`RoleId`) REFERENCES `AspNetRoles` (`Id`) ON DELETE CASCADE
+);
+
+
+CREATE TABLE `AspNetUserLogins` (
+    `LoginProvider` varchar(128) CHARACTER SET utf8mb4 NOT NULL,
+    `ProviderKey` varchar(128) CHARACTER SET utf8mb4 NOT NULL,
+    `ProviderDisplayName` longtext CHARACTER SET utf8mb4 NULL,
+    `UserId` varchar(85) CHARACTER SET utf8mb4 NOT NULL,
+    CONSTRAINT `PK_AspNetUserLogins` PRIMARY KEY (`LoginProvider`, `ProviderKey`),
+    CONSTRAINT `FK_AspNetUserLogins_AspNetUsers_UserId` FOREIGN KEY (`UserId`) REFERENCES `AspNetUsers` (`Id`) ON DELETE CASCADE
+);
+
+
+CREATE TABLE `AspNetUserRoles` (
+    `UserId` varchar(85) CHARACTER SET utf8mb4 NOT NULL,
+    `RoleId` varchar(85) CHARACTER SET utf8mb4 NOT NULL,
+    CONSTRAINT `PK_AspNetUserRoles` PRIMARY KEY (`UserId`, `RoleId`),
+    CONSTRAINT `FK_AspNetUserRoles_AspNetRoles_RoleId` FOREIGN KEY (`RoleId`) REFERENCES `AspNetRoles` (`Id`) ON DELETE CASCADE,
+    CONSTRAINT `FK_AspNetUserRoles_AspNetUsers_UserId` FOREIGN KEY (`UserId`) REFERENCES `AspNetUsers` (`Id`) ON DELETE CASCADE
+);
+    
+
+    CREATE TABLE `AspNetUserTokens` (
+    `UserId` varchar(85) CHARACTER SET utf8mb4 NOT NULL,
+    `LoginProvider` varchar(128) CHARACTER SET utf8mb4 NOT NULL,
+    `Name` varchar(128) CHARACTER SET utf8mb4 NOT NULL,
+    `Value` longtext CHARACTER SET utf8mb4 NULL,
+    CONSTRAINT `PK_AspNetUserTokens` PRIMARY KEY (`UserId`, `LoginProvider`, `Name`),
+    CONSTRAINT `FK_AspNetUserTokens_AspNetUsers_UserId` FOREIGN KEY (`UserId`) REFERENCES `AspNetUsers` (`Id`) ON DELETE CASCADE
+);
