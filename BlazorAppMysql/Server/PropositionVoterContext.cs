@@ -25,7 +25,7 @@ namespace BlazorAppMysql.Server
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseMySQL("server=127.0.0.1;Port=3306;Database=PropositionVoter;user id=root;Pwd=;SslMode=none;");
+                optionsBuilder.UseMySQL(@"Data Source=SIULAAGPAR001\SQLEXPRESS;Initial Catalog=MonConcierge;Integrated Security=True");
             }
         }
 
